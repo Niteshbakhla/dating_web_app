@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 export default function DatingLandingPage() {
+
+            const navigate = useNavigate();
             useEffect(() => {
                         /* global google */
                         if (!window.google) return;
@@ -35,7 +38,7 @@ export default function DatingLandingPage() {
 
 
                                     // Redirect after successful login
-                                    window.location.href = "/profile";
+                                    navigate("/profile")
                         } catch (error) {
                                     console.error("Google login failed", error);
                         }
