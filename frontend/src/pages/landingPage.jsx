@@ -39,7 +39,7 @@ export default function DatingLandingPage() {
                                     // Redirect after successful login
                                     navigate("/profile")
                         } catch (error) {
-                                    console.error("Google login failed", error);
+                                    console.error("Google login failed", error.response || error.message || error);
                         }
             };
 
