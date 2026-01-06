@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
-// lazy imports
+
 const DatingLandingPage = lazy(() => import("./pages/landingPage"));
 const Profile = lazy(() => import("./pages/Profile"));
 const ProfileDetails = lazy(() => import("./pages/ProfileDetails"));
