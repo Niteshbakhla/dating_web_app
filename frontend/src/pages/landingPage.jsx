@@ -7,7 +7,6 @@ export default function DatingLandingPage() {
 
             const navigate = useNavigate();
             useEffect(() => {
-                        /* global google */
                         if (!window.google) return;
 
                         google.accounts.id.initialize({
@@ -31,7 +30,7 @@ export default function DatingLandingPage() {
                                     const idToken = response.credential;
 
                                     await axios.post(
-                                                "http://localhost:5000/api/auth/google",
+                                                `${import.meta.env.VITE_API_URL}/auth/google`,
                                                 { idToken },
                                                 { withCredentials: true }
                                     );
