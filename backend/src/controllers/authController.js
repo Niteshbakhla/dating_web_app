@@ -43,9 +43,10 @@ export const googleAuth = async (req, res) => {
                         console.log("STEP 4: payload email", payload.email);
 
                         // your user logic here
+                        const token = generateToken(user._id);
                         console.log("STEP 5: before cookie");
 
-                        res.cookie("token", jwtToken, getAuthCookieOptions());
+                        res.cookie("token", token, getAuthCookieOptions());
                         console.log("STEP 6: cookie set");
 
                         res.json({ message: "success" });
