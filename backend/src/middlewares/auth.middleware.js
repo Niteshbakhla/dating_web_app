@@ -15,7 +15,6 @@ const protect = asyncHandler(async (req, res, next) => {
             const decoded = jwt.verify(token, config.JWT_SECRET);
 
             req.user = { id: decoded.userId };
-
             next();
 });
 

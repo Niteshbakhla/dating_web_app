@@ -6,10 +6,7 @@ export const setupSocket = (io) => {
                         socket.join(userId)
                         socket.on("sendMessage", async ({ receiverId, text }) => {
                                     const message = await Message.create({ senderId: userId, receiverId, text });
-                                    // emit to receiver
-
                                     io.to(receiverId).emit('receiveMessage', message);
-
                         })
                         socket.on('disconnect', () => {
                                     console.log('User disconnected:', socket.id);

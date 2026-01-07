@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Heart, X, User, LogOut, MessageCircle } from 'lucide-react'; // Add MessageCircle
+import { Heart, X, User, LogOut, MessageCircle } from 'lucide-react'; 
 import { fetchProfiles, likeProfile, logout } from '@/api/profile';
 import ProfileCard from '@/components/ui/common/Card';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 
-// Main Component with Profile List
 export default function ProfileCardList() {
             const [showLogoutMenu, setShowLogoutMenu] = useState(false);
             const navigate = useNavigate();
@@ -19,6 +18,7 @@ export default function ProfileCardList() {
 
             const handleLike = async (profile) => {
                         try {
+                                    console.log(profile)
                                     const data = await likeProfile(profile)
 
                                     toast.success(data.message)
@@ -29,7 +29,6 @@ export default function ProfileCardList() {
 
             const handlePass = (profile) => {
                         console.log('Passed:', profile);
-                        // Add your pass logic here
                         alert(`You passed on ${profile.name}`);
             };
 
@@ -47,9 +46,9 @@ export default function ProfileCardList() {
                         }
             }
 
-            // NEW: Handle navigate to matches page
-            const handleViewMatches = () => {
-                        navigate('/matches'); // Change this to your matches route
+
+            const  handleMatches = () => {
+                        navigate('/matches'); 
             };
 
             if (isLoading) {
@@ -98,12 +97,12 @@ export default function ProfileCardList() {
                                                                         </span>
                                                             </div>
 
-                                                            {/* NEW: Right side with Matches button and User menu */}
+
                                                             <div className="flex items-center gap-3">
                                                                         {/* Matches Button */}
                                                                         <button
-                                                                                    onClick={handleViewMatches}
-                                                                                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300"
+                                                                                    onClick={handleMatches}
+                                                                                    className="flex items-center gap-2 px-4 py-2 bg-linear-to-r from-pink-500 to-purple-600 text-white font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300"
                                                                         >
                                                                                     <MessageCircle className="w-5 h-5" />
                                                                                     <span>Matches</span>
@@ -135,7 +134,6 @@ export default function ProfileCardList() {
                                                             </div>
                                                 </div>
                                     </header>
-                                    {/* Profile Cards Grid */}
                                     <div className="max-w-7xl mx-auto px-4 py-8">
                                                 <div className="mb-6 text-center">
                                                             <h1 className="text-3xl font-bold text-gray-800 mb-2">Discover Matches</h1>

@@ -2,7 +2,7 @@ import config from "../config/config.js";
 
 export const getAuthCookieOptions = () => {
             const isProd = config.NODE_ENV === "production";
-
+         
             return {
                         httpOnly: true,
                         secure: isProd,

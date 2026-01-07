@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { Box, Typography } from "@mui/material";
+import { googleAuthLogin } from "@/api/profile";
+import toast from "react-hot-toast";
 
 export default function DatingLandingPage() {
-
             const navigate = useNavigate();
+
             useEffect(() => {
                         if (!window.google) return;
 
@@ -25,67 +27,110 @@ export default function DatingLandingPage() {
             }, []);
 
             const handleGoogleResponse = async (response) => {
-
                         try {
                                     const idToken = response.credential;
 
-                                    await axios.post(
-                                                `${import.meta.env.VITE_API_URL}/auth/google`,
-                                                { idToken },
-                                    );
+                                    const data = await googleAuthLogin(idToken);
+                                    toast.success(data.message)
 
-
-                                    // Redirect after successful login
-                                    navigate("/profile")
+                                    if (data.hasProfile) navigate("/profile")
+                                    else navigate("/create-profile");
                         } catch (error) {
-                                    console.error("Google login failed", error.response || error.message || error);
+                                    console.error(
+                                                "Google login failed",
+                                                error.response || error.message || error
+                                    );
                         }
             };
 
-
-
             return (
-                        <div className="h-screen w-full bg-gradient-to-br from-pink-50 via-white to-purple-50 flex items-center justify-center overflow-hidden">
-                                    <div className="text-center px-4 max-w-2xl w-full">
-                                                {/* Logo */}
-                                                <div className="flex items-center justify-center gap-3 mb-10">
-                                                            <svg
-                                                                        width="48"
-                                                                        height="48"
+                        <Box
+                                    sx={{
+                                                height: "100vh",
+                                                width: "100%",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                background:
+                                                            "linear-gradient(135deg, #fdf2f8 0%, #ffffff 50%, #faf5ff 100%)",
+                                                overflow: "hidden",
+                                    }}
+                        >
+                                    <Box
+                                                sx={{
+                                                            textAlign: "center",
+                                                            px: 2,
+                                                            maxWidth: 700,
+                                                            width: "100%",
+                                                }}
+                                    >
+                                               
+                                                <Box
+                                                            sx={{
+                                                                        display: "flex",
+                                                                        alignItems: "center",
+                                                                        justifyContent: "center",
+                                                                        gap: 2,
+                                                                        mb: 6,
+                                                            }}
+                                                >
+                                                            <Box
+                                                                        component="svg"
+                                                                        width={48}
+                                                                        height={48}
                                                                         viewBox="0 0 24 24"
                                                                         fill="#ec4899"
-                                                                        stroke="#ec4899"
-                                                                        strokeWidth="2"
                                                             >
-                                                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                                            </svg>
-                                                            <span className="text-4xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+                                                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                                            </Box>
+
+                                                            <Typography
+                                                                        variant="h4"
+                                                                        fontWeight="bold"
+                                                                        sx={{
+                                                                                    background: "linear-gradient(90deg, #ec4899, #9333ea)",
+                                                                                    WebkitBackgroundClip: "text",
+                                                                                    WebkitTextFillColor: "transparent",
+                                                                        }}
+                                                            >
                                                                         LoveConnect
-                                                            </span>
-                                                </div>
+                                                            </Typography>
+                                                </Box>
 
-                                                {/* Headline */}
-                                                <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                                           
+                                                <Typography
+                                                            variant="h2"
+                                                            fontWeight="bold"
+                                                            sx={{ mb: 3, lineHeight: 1.1 }}
+                                                >
                                                             Where Real Connections
-                                                            <span className="block bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+                                                            <Box
+                                                                        component="span"
+                                                                        sx={{
+                                                                                    display: "block",
+                                                                                    background: "linear-gradient(90deg, #ec4899, #9333ea)",
+                                                                                    WebkitBackgroundClip: "text",
+                                                                                    WebkitTextFillColor: "transparent",
+                                                                        }}
+                                                            >
                                                                         Begin
-                                                            </span>
-                                                </h1>
+                                                            </Box>
+                                                </Typography>
 
-                                                {/* Subheadline */}
-                                                <p className="text-xl text-gray-600 mb-12">
+                                          
+                                                <Typography variant="h6" color="text.secondary" sx={{ mb: 6 }}>
                                                             Join thousands of singles finding meaningful relationships
-                                                </p>
+                                                </Typography>
 
-                                                {/* ✅ Google Sign In Button (Rendered by Google) */}
-                                                <div className="flex justify-center">
-                                                            <div id="google-btn"></div>
-                                                </div>
+                                            
+                                                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                                                            <Box id="google-btn" />
+                                                </Box>
 
-                                                <p className="text-sm text-gray-500 mt-6">
+                                                <Typography variant="body2" color="text.secondary" sx={{ mt: 3 }}>
                                                             Free to join • No credit card required
-                                                </p>
-                                    </div>
-                        </div>
+                                                </Typography>
+                                    </Box>
+                        </Box>
             );
 }

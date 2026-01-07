@@ -18,8 +18,7 @@ router
             .post(createProfile)
             .get(getProfiles)
 
-router
-            .route("/me")
+router.route("/me")
             .get(getMyProfile)
             .put(updateMyProfile)
             .delete(deleteMyProfile);
@@ -27,5 +26,8 @@ router
 router
             .route("/:userId")
             .get(getProfileByUserId);
+
+router
+            .route("/match")
 
 export default router;

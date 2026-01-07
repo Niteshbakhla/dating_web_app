@@ -41,7 +41,6 @@ export const likeProfileService = async (likedBy, likedTo) => {
             try {
                         match = await Match.create({ users });
             } catch (error) {
-                        // match already exists
                         match = await Match.findOne({ users });
             }
 

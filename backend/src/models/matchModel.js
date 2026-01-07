@@ -13,7 +13,6 @@ const matchSchema = new mongoose.Schema(
             { timestamps: true }
 );
 
-// ensure same pair cannot match twice
 matchSchema.index({ users: 1 }, { unique: true });
 
 const Match = mongoose.model("Match", matchSchema);

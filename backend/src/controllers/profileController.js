@@ -1,11 +1,6 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import {
-            createProfileService,
-            getMyProfileService,
-            getProfileByUserIdService,
-            updateProfileService,
-            deleteProfileService,
-            getProfilesService,
+            createProfileService, getMyProfileService, getProfileByUserIdService, updateProfileService, deleteProfileService, getProfilesService,
 } from "../services/profileService.js";
 
 export const createProfile = asyncHandler(async (req, res) => {
@@ -60,7 +55,7 @@ export const deleteMyProfile = asyncHandler(async (req, res) => {
 
 export const getProfiles = asyncHandler(async (req, res) => {
             const profiles = await getProfilesService(req.user.id);
-         
+
             res.status(200).json({
                         success: true,
                         profiles,

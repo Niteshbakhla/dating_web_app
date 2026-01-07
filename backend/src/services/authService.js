@@ -1,15 +1,17 @@
 import User from "../models/authModel.js";
+import Profile from "../models/profileModel.js";
 import CustomError from "../utilis/customError.js"
 import { verifyGoogleIdToken } from "../utilis/verifyGoogleToken.js";
 
 
 export const googleLogin = async (idToken) => {
             if (!idToken) {
-                        throw new CustomError("id token is required", 400);
+                        throw new CustomError("Google ID token is required", 400);
             }
 
-            const payload = await verifyGoogleIdToken(idToken);
-            const { email, sub: googleId, email_verified, name } = payload;
+            const payload = await verifyGoogleIdToken(idToken)
+
+            const { email, sub: googleId, name, email_verified } = payload
 
             if (!email) {
                         throw new CustomError("Google account has no email", 400);
@@ -22,8 +24,18 @@ export const googleLogin = async (idToken) => {
             let user = await User.findOne({ googleId });
 
             if (!user) {
-                        user = await User.create({ email, name, googleId });
+                        user = await User.create({
+                                    email,
+                                    name,
+                                    googleId,
+                        });
             }
 
-            return { user };
+            const profile = await Profile.findOne({ userId: user._id });
+
+            return {
+                        user,
+                        hasProfile: Boolean(profile),
+            };
 };
+

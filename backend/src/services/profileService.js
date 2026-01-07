@@ -1,3 +1,4 @@
+import Match from "../models/matchModel.js";
 import Profile from "../models/profileModel.js";
 import CustomError from "../utilis/customError.js";
 
@@ -61,13 +62,8 @@ export const deleteProfileService = async (userId) => {
 };
 
 
-
-
 export const getProfilesService = async (userId) => {
-            const data = await Profile.find()
-            console.log(data)
-            return data;
-            // return await Profile.find({
-            //             userId: { $ne: userId }, 
-            // }).select("name bio userImage");
+            return await Profile.find({
+                        userId: { $ne: userId },
+            }).select("name bio userImage userId");
 };
