@@ -42,6 +42,7 @@ export const googleAuth = async (req, res) => {
                         const payload = ticket.getPayload();
                         console.log("STEP 4: payload email", payload.email);
 
+                        const { user, hasProfile } = await googleLogin(idToken);
                         // your user logic here
                         const token = generateToken(user._id);
                         console.log("STEP 5: before cookie");
