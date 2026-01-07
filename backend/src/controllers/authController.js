@@ -9,57 +9,26 @@ const GOOGLE_CLIENT_ID = config.GOOGLE_CLIENT_ID;
 
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
-// export const googleAuth = asyncHandler(async (req, res) => {
-//             const { idToken } = req.body;
+export const googleAuth = asyncHandler(async (req, res) => {
+            const { idToken } = req.body;
 
-//             if (!idToken) {
-//                         throw new CustomError("Google ID token is required", 400);
-//             }
-
-//             const { user, hasProfile } = await googleLogin(idToken);
-
-//             const token = generateToken(user._id);
-//             res.cookie("token", token, getAuthCookieOptions());
-
-//             res.status(200).json({
-//                         success: true,
-//                         message: "Login successful",
-//                         user,
-//                         hasProfile
-//             });
-// });
-
-export const googleAuth = async (req, res) => {
-            try {
-                        console.log("STEP 1: route hit");
-
-                        const { idToken } = req.body;
-                        console.log("STEP 2: token exists?", !!idToken);
-
-                        const ticket = await client.verifyIdToken({
-                                    idToken,
-                                    audience: GOOGLE_CLIENT_ID,
-                        });
-                        console.log("STEP 3: Google verified");
-
-                        const payload = ticket.getPayload();
-                        console.log("STEP 4: payload email", payload.email);
-
-                        const { user, hasProfile } = await googleLogin(idToken);
-                        // your user logic here
-                        const token = generateToken(user._id);
-                        console.log("STEP 5: before cookie");
-
-                        res.cookie("token", token, getAuthCookieOptions());
-                        console.log("STEP 6: cookie set");
-
-                        res.json({ message: "success" });
-
-            } catch (err) {
-                        console.error("❌ GOOGLE ERROR:", err);
-                        res.status(400).json({ error: err.message });
+            if (!idToken) {
+                        throw new CustomError("Google ID token is required", 400);
             }
-};
+
+            const { user, hasProfile } = await googleLogin(idToken);
+
+            const token = generateToken(user._id);
+            res.cookie("token", token, getAuthCookieOptions());
+
+            res.status(200).json({
+                        success: true,
+                        message: "Login successful",
+                        user,
+                        hasProfile
+            });
+});
+
 
 
 export const logout = (req, res) => {
