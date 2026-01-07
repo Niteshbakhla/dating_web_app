@@ -6,25 +6,30 @@ import { getAuthCookieOptions } from "../utilis/cookieOption.js";
 import { generateToken } from "../utilis/jwtToken.js";
 
 
-export const googleAuth = asyncHandler(async (req, res) => {
-            const { idToken } = req.body;
+export const googleAuth = async (req, res) => {
+            try {
+                        const { idToken } = req.body;
 
-            if (!idToken) {
-                        throw new CustomError("Google ID token is required", 400);
+                        if (!idToken) {
+                                    throw new CustomError("Google ID token is required", 400);
+                        }
+
+                        const { user, hasProfile } = await googleLogin(idToken);
+
+                        const token = generateToken(user._id);
+                        res.cookie("token", token, getAuthCookieOptions());
+
+                        res.status(200).json({
+                                    success: true,
+                                    message: "Login successful",
+                                    user,
+                                    hasProfile
+                        });
+            } catch (error) {
+                        console.error("GOOGLE VERIFY ERROR:", err);
+                        res.status(400).json({ error: err.message });
             }
-
-            const { user, hasProfile } = await googleLogin(idToken);
-
-            const token = generateToken(user._id);
-            res.cookie("token", token, getAuthCookieOptions());
-
-            res.status(200).json({
-                        success: true,
-                        message: "Login successful",
-                        user,
-                        hasProfile
-            });
-});
+}
 
 
 export const logout = (req, res) => {
