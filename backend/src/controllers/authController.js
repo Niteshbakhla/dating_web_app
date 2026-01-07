@@ -1,10 +1,13 @@
+import { OAuth2Client } from "google-auth-library";
 import config from "../config/config.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import User from "../models/authModel.js";
 import { googleLogin } from "../services/authService.js";
 import { getAuthCookieOptions } from "../utilis/cookieOption.js";
 import { generateToken } from "../utilis/jwtToken.js";
+const GOOGLE_CLIENT_ID = config.GOOGLE_CLIENT_ID;
 
+const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 // export const googleAuth = asyncHandler(async (req, res) => {
 //             const { idToken } = req.body;
