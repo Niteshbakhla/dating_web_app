@@ -9,7 +9,7 @@ const GOOGLE_CLIENT_ID = config.GOOGLE_CLIENT_ID;
 
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
-export const googleAuth = asyncHandler(async (req, res) => {
+export const    googleAuth = asyncHandler(async (req, res) => {
             const { idToken } = req.body;
 
             if (!idToken) {
